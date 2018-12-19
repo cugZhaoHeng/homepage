@@ -1,0 +1,35 @@
+html, body {
+	height: 100%;
+}
+
+#north {
+	height: 100px;
+    position: relative;
+    z-index: 2;
+    background-color: #1da02b;
+    background: url('../images/main/xg_left.png?1464005190') left center no-repeat, url('../images/main/xg_right.png?1464005212') right center no-repeat, url('../images/main/top_bottombg.png?1464006836') left bottom repeat-x
+	
+}
+
+#north .north-user {
+	position: relative;
+	float: right;
+	margin-right: 20px;
+	padding: 0 10px;
+	height: 70px;
+	line-height: 70px;
+	cursor: pointer
+}
+
+#north .north-user .north-user-photo {
+	float: left;
+	margin: 12px 10px 0 0;
+	width: 48px;
+	height: 48px
+}
+#north .north-user .north-user-photo img {
+	margin : 4px;
+}
+#north .north-user .north-user-username {
+	float: left;
+}
