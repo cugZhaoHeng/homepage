@@ -30,24 +30,24 @@
 						<div class="lg-label">用户登录</div>
 						<!-- 带有error的为提示语，默认隐藏，在用户输入错误信息时显示 -->
 						<div class="alert alert-error" id="error">
-							<i class="iconfont">&#xe62e;</i> <span id="info"></span>
+							<i class="iconfont">&#xe7df;</i> <span id="info"></span>
 						</div>
 						<!-- 创建登录表单 -->
 						<form method="post">
 							<!-- 用户名输入框 -->
 							<div class="input-item clearfix">
-								<i class="iconfont">&#xe60d;</i> <input type="text"
+								<i class="iconfont">&#xea93;</i> <input type="text"
 									name="username" id="username" placeholder="用户名" />
 							</div>
 							<!-- 密码输入框 -->
 							<div class="input-item clearfix">
-								<i class="iconfont">&#xe634;</i> <input type="password"
+								<i class="iconfont">&#xe908;</i> <input type="password"
 									name="password" id="password" placeholder="密码" />
 							</div>
 							<!-- 验证码，包含输入部分和显示部分 -->
 							<div class="lg-check clearfix">
 								<div class="input-item">
-									<i class="iconfont">&#xe633;</i> <input type="text"
+									<i class="iconfont">&#xe8dc;</i> <input type="text"
 										name="captcha" id="captcha" placeholder="验证码" />
 								</div>
 								<span class="check-code"> </span>
@@ -86,6 +86,19 @@
 
 		} else {
 			// 处理用户登录
+			$.ajax({
+				url: "login.do",
+				type: "post",
+				dataType: "json",
+				data: {"userName":username, "password":password},
+				success: function(date) {
+					$.messager.alert('提示信息', data.msg, 'info', function(){
+						if(data.success) {
+							
+						}
+					})
+				}
+			})
 		}
 	}
 </script>

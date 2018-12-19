@@ -3,7 +3,7 @@ html, body {
 }
 
 #north {
-	height: 100px;
+	
     position: relative;
     z-index: 2;
     background-color: #1da02b;
@@ -24,12 +24,13 @@ html, body {
 #north .north-user .north-user-photo {
 	float: left;
 	margin: 12px 10px 0 0;
-	width: 48px;
-	height: 48px
+	width: 40px;
+	height: 40px
 }
 #north .north-user .north-user-photo img {
 	margin : 4px;
 }
 #north .north-user .north-user-username {
-	float: left;
+	float: right;
+	margin-top: 20px
 }
