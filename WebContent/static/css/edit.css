@@ -3,16 +3,20 @@
 	position: relative;
 }
 .container table.kv-table {
-	margin-bottom: 20px
+	margin-top: 100px;
+	margin-bottom: 20px;
+	width: 50%;
 }
 
 .container table.kv-table td.kv-label {
 	height: 26px;
+	width: 30%;
 	font-size: 12px
 }
 
 .container table.kv-table td.kv-content {
 	height: 26px;
+	
 	font-size: 12px
 }
 

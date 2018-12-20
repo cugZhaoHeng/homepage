@@ -94,7 +94,7 @@
 				success: function(data) {
 					$.messager.alert('提示信息', data.msg, 'info', function(){
 						if(data.success) {
-							document.location.href = "index.jsp";
+							document.location.href = "jsp/index.jsp";
 						}
 					})
 				}

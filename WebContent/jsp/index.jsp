@@ -13,7 +13,7 @@
 <base href="<%=basePath%>">
 <title>Insert title here</title>
 <link href="static/css/index.css" rel="stylesheet">
-<%@include file="script.html"%>
+<%@include file="../script.html"%>
 </head>
 <body>
 	<div class="easyui-layout" style="width: 100%; height: 100%;">
@@ -46,7 +46,7 @@
 			<!-- 中间的面板显示标签页，默认为首页home.jsp -->
 			<div class="easyui-tabs" id="tabs" style="width:100%; height:100%;">
 				<div title="首页" style="padding:10px 5px 5px 10px;">
-                    <iframe class="page-iframe" src="" frameborder="no" border="no" height="100%" width="100%" scrolling="auto"></iframe>
+                    <iframe class="page-iframe" src="jsp/home.jsp" frameborder="no" border="no" height="100%" width="100%" scrolling="auto"></iframe>
                 </div>
 			</div>
 		</div>
