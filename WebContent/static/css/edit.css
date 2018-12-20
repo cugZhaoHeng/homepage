@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+.container {
+	position: relative;
+}
+.container table.kv-table {
+	margin-bottom: 20px
+}
+
+.container table.kv-table td.kv-label {
+	height: 26px;
+	font-size: 12px
+}
+
+.container table.kv-table td.kv-content {
+	height: 26px;
+	font-size: 12px
+}
+
+.container table.kv-table td.kv-content a {
+	color: #1da02b;
+	text-decoration: none
+}
+
+.container table.kv-table td.kv-content a:hover {
+	text-decoration: underline
+}
+
+.container .btn-selection {
+	text-align: center;
+}
+
+.container .btn-selection .save-btn {
+	background-color: #1da02b;
+	margin-right: 40px;
+	border: 0px;
+}
+
+.container .btn-selection .edit-btn {
+	background-color: #1da02b;
+	margin-right: 40px;
+	border: 0px;
+}
+
+.container .btn-selection .reset-btn {
+	background-color: #f45438;
+	margin-left: 40px;
+	border: 0px;
+}
+
+.container .btn-selection .exit-btn {
+	background-color: #f45438;
+	margin-left: 40px;
+	border: 0px;
+}

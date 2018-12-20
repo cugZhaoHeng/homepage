@@ -91,10 +91,10 @@
 				type: "post",
 				dataType: "json",
 				data: {"userName":username, "password":password},
-				success: function(date) {
+				success: function(data) {
 					$.messager.alert('提示信息', data.msg, 'info', function(){
 						if(data.success) {
-							
+							document.location.href = "index.jsp";
 						}
 					})
 				}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,11 +23,11 @@
 					<img alt="" src="static/images/user.png">
 				</div>
 				<div class="north-user-username">
-					<a class="easyui-menubutton" data-options="plain:true, menu:'#user'">张三</a>
+					<a class="easyui-menubutton" data-options="plain:true, menu:'#user'">${sessionScope.userName }</a>
 					<div id="user">
-						<div><i class="iconfont">&#xe6cb;</i>个人信息</div>
-						<div><i class="iconfont">&#xe8fd;</i>修改密码</div>
-						<div><i class="iconfont">&#xeae2;</i>退出</div>
+						<div id="userinfo"><i class="iconfont">&#xe6cb;</i><a href="javascript:addTab('个人信息', 'jsp/lookUserinfo.jsp')">个人信息</a></div>
+						<div><i class="iconfont" id="editPassword">&#xe8fd;</i><a href="javascript:addTab('修改密码', 'jsp/editPassword.jsp')">修改密码</a></div>
+						<div><i class="iconfont" id="exit">&#xeae2;</i><a href="login.jsp">退出</a></div>
 					</div>
 				</div>
 			</div>
@@ -34,17 +35,19 @@
 		<div data-options="region:'south',split:true" style="height: 50px;"></div>
 		<div data-options="region:'east',split:true" title="East"
 			style="width: 100px;"></div>
-		<div data-options="region:'west',split:true" id="west" title="小功能"
-			style="width: 150px;">
-			<a href="javascript:addTab('蚂蚁森林', 'http://www.sina.com')" class="easyui-linkbutton" data-options="text:'蚂蚁森林', selected:true"></a>
+		<div data-options="region:'west',split:true" id="west" title="小功能" style="width: 150px;">
+			<div class="selecion-btn">
+				<a href="javascript:addTab('蚂蚁森林', 'http://www.sina.com')" class="easyui-linkbutton" data-options="text:'蚂蚁森林', selected:true"></a>
+				
+			</div>
 			
 		</div>
 		<div data-options="region:'center'">
 			<!-- 中间的面板显示标签页，默认为首页home.jsp -->
 			<div class="easyui-tabs" id="tabs" style="width:100%; height:100%;">
 				<div title="首页" style="padding:10px 5px 5px 10px;">
-                    <iframe class="page-iframe" src="http://www.baidu.com" frameborder="no" border="no" height="100%" width="100%" scrolling="auto"></iframe>
-                  </div>
+                    <iframe class="page-iframe" src="" frameborder="no" border="no" height="100%" width="100%" scrolling="auto"></iframe>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -65,5 +68,7 @@
 		}
 		
 	}
+	
+	
 </script>
 </html>
