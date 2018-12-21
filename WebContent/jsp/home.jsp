@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,15 +15,57 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>Insert title here</title>
 </head>
 <body>
-<div id="container" style="width: 500px; height: 400px;">abc</div>
+<div>
+	<div id="container" style="width: 500px; height: 400px;"></div>
+	<table id="tb-energy"></table>
+</div>
 </body>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var title = {text: '月平均气温'};
-		var subtitle = {text:'数据来源：中国天气网'};
+		var userId = "${sessionScope.userId }";
+		loadEnergy(userId);
+		
+		$("#tb-energy").datagrid({
+			toolbar: [
+				{iconCls: 'icon-edit', text: '编辑', handler: function(){alert("edit")}},
+				{iconCls: 'icon-remove', text: '删除', handler: function(){}},
+				{iconCls: 'icon-add', text:'添加', handler:function(){}}
+			],
+			url: 'getEnergyById.do?userId='+userId,
+			pagination: true,
+			rownumbers: true,
+			pageNumber: 1,
+			pageSize: 10,
+			pageList: [1, 2, 5, 10],
+			striped: true,
+			columns: [
+				[
+					{field: 'date', title: '日期', width: 200, align: 'center'},
+					{field: 'energy', title: '能量', width: 200, align: 'center'}
+				]
+			],
+		});
+	})
+	
+	/* 加载蚂蚁森林能量曲线图  */
+	function loadEnergy(userId) {
+		$.ajaxSetup({async : false});	/* 防止Ajax异步提交，这里需要等待数据先获取到   */
+		var energyDate = [];
+		var energyData = [];
+		$.post('getEnergyById.do?userId='+userId, {}, function(data){
+			$.each(data, function(index, val){
+				energyDate.push(val.date);
+				energyData.push(val.energy*1);	/* 将字符串转化为数字  */
+			})
+		}, 'json');
+		
+		var chart = {backgroundColor: '#ffffff', inverted: false};
+		var credits = {enabled: false};
+		var title = {text: '蚂蚁森林'};
+		var subtitle = {text:'数据来源：支付宝'};
 		var xAxis = {
 				title:'月份', 
-				categories:['一月', '二月', '三月', '四月', '五月', '六月' ,'七月', '八月', '九月', '十月', '十一月', '十二月'],
+				categories:energyDate,
 				lineWidth:0,
 				gridLineColor:'#C0C0C0',
 				gridLineWidth:1,
@@ -32,14 +75,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var tooltip = {valueSuffix:'xB0C'};
 		var legend = {layout:'vertical', align:'right', verticalAlign:'middle', borderWidth:0};
 		var series = [
-			{name:'东京', data:[7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]},
-			{name:'纽约', data:[-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]},
-			{name:'柏林', data:[-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]}, 
-			{name:'伦敦', data:[3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]}
+			{name:'能量', data:energyData}
 		];
 		
 		var json = {};
-		
+		json.chart = chart;
+		json.credits = credits;
 		json.title = title;
 		json.subtitle = subtitle;
 		json.xAxis = xAxis;
@@ -48,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		json.legend = legend;
 		json.series = series;
 		$("#container").highcharts(json);
-	})
+	}
 	
 </script>
 </html>
