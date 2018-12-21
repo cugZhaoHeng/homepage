@@ -24,7 +24,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$(document).ready(function(){
 		var userId = "${sessionScope.userId }";
 		loadEnergy(userId);
-		
+		tableEnergy(userId);
+	})
+	
+	/* 显示蚂蚁森林能量表格  */
+	function tableEnergy(userId) {
 		$("#tb-energy").datagrid({
 			toolbar: [
 				{iconCls: 'icon-edit', text: '编辑', handler: function(){alert("edit")}},
@@ -45,14 +49,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				]
 			],
 		});
-	})
+	}
 	
 	/* 加载蚂蚁森林能量曲线图  */
 	function loadEnergy(userId) {
 		$.ajaxSetup({async : false});	/* 防止Ajax异步提交，这里需要等待数据先获取到   */
 		var energyDate = [];
 		var energyData = [];
-		$.post('getEnergyById.do?userId='+userId, {}, function(data){
+		$.post('getEnergyById.do', {'userId': userId}, function(data){
 			$.each(data, function(index, val){
 				energyDate.push(val.date);
 				energyData.push(val.energy*1);	/* 将字符串转化为数字  */

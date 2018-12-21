@@ -16,9 +16,34 @@ public class UserDao {
 	 * @param obj
 	 * @return
 	 */
-	public UserBean selectUserByUserName(String userName, Object[] obj) {
+	public UserBean selectUserByUserName(Object[] obj) {
 		String sql = "select * from user_info where username = ? and password=?";
 		List<Map<String,String>> list = DBUtil.query(sql, obj);
+		UserBean user = null;
+		if(list!=null && list.size()>0) {
+			Map<String, String> map = list.get(0);
+			user = new UserBean();
+			try {
+				BeanUtils.populate(user, map);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+	
+	/**
+	 * 通过用户ID访问用户详细信息
+	 * @param obj
+	 * @return
+	 */
+	public UserBean selectUserById(Object[] obj) {
+		String sql = "select * from user_info where id = ?";
+		List<Map<String, String>> list = DBUtil.query(sql, obj);
 		UserBean user = null;
 		if(list!=null && list.size()>0) {
 			Map<String, String> map = list.get(0);

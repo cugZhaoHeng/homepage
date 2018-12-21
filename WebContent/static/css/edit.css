@@ -5,25 +5,30 @@
 .container table.kv-table {
 	margin-top: 100px;
 	margin-bottom: 20px;
-	width: 50%;
+	width: 40%;
+	border-collapse: separate;
+	border-spacing: 0 10px;
 }
 
 .container table.kv-table td.kv-label {
 	height: 26px;
 	width: 30%;
-	font-size: 12px
+	font-size: 12px;
+	text-align: right;
 }
 
 .container table.kv-table td.kv-content {
 	height: 26px;
-	
-	font-size: 12px
+	padding-left: 20px;
+	font-size: 12px;
+	text-align: left;
 }
 
-.container table.kv-table td.kv-content a {
-	color: #1da02b;
-	text-decoration: none
-}
+/* .container table.kv-table td.kv-content .kv-text {
+	width: 100%;
+	height: 26px;
+	
+} */
 
 .container table.kv-table td.kv-content a:hover {
 	text-decoration: underline
@@ -46,13 +51,13 @@
 }
 
 .container .btn-selection .reset-btn {
-	background-color: #f45438;
+	background-color: #c60000;
 	margin-left: 40px;
 	border: 0px;
 }
 
 .container .btn-selection .exit-btn {
-	background-color: #f45438;
+	background-color: #c60000;
 	margin-left: 40px;
 	border: 0px;
 }

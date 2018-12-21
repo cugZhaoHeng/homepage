@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 		Object[] obj = {userName, password};
 		// 连接数据库，验证登录信息
 		UserDao userDao = new UserDao();
-		UserBean userBean = userDao.selectUserByUserName(userName, obj);
+		UserBean userBean = userDao.selectUserByUserName(obj);
 		
 		// 设置session
 		HttpSession session = request.getSession();
