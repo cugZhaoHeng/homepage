@@ -18,13 +18,13 @@ import net.sf.json.JSONArray;
  * Servlet implementation class GetAllUser
  */
 @WebServlet("/getAllUser.do")
-public class GetAllUser extends HttpServlet {
+public class GetAllUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetAllUser() {
+    public GetAllUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

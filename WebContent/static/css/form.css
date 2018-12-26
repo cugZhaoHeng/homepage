@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+.container {
+	text-align: center;
+}
+
+.container .input-date {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.container .input-number {
+	margin-bottom: 20px;
+}
