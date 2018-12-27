@@ -7,6 +7,12 @@ import cug.util.DBUtil;
 
 public class EnergyDao {
 	/**
+	 * 分页查询能量记录
+	 */
+	public List<Map<String, String>> getEnergyByPage(Object[] obj) {
+		return DBUtil.query("select * from energy_info where userId = ? order by date limit ?, ?", obj);
+	}
+	/**
 	 * 根据用户的id查询其能量记录并返回
 	 */
 	public List<Map<String, String>> getEnergyById(Object[] obj) {
@@ -24,6 +30,13 @@ public class EnergyDao {
 	 */
 	public int removeEnergy(Object[] obj) {
 		return DBUtil.update("delete from energy_info where userId=? and date=?", obj);
+	}
+	
+	/**
+	 * 修改能量表中的数据
+	 */
+	public int editEnergy(Object[] obj) {
+		return DBUtil.update("update energy_info set energy=? where userId=? and date=?", obj);
 	}
 	
 	/**

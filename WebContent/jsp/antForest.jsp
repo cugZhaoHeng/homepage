@@ -26,6 +26,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var userId = "${sessionScope.userId }";
 		tableEnergy(userId);
 		loadEnergy(userId);
+		var pager = $("#tb-energy").datagrid('getPager');
+		pager.pagination({
+			
+		});
 	});
 	
 	/* 显示蚂蚁森林能量表格  */
@@ -33,15 +37,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#tb-energy").datagrid({
 			toolbar: [
 				{iconCls: 'icon-edit', text: '编辑', handler: function(){editEnergy();}},
-				{iconCls: 'icon-remove', text: '删除', handler: function(){remove();}},
-				{iconCls: 'icon-add', text:'添加', handler:function(){openWindow();}},
-				{iconCls: 'icon-reload', text:'刷新', handler:function(){window.location.reload();}}
+				{iconCls: 'icon-remove', text: '删除', handler: function(){removeEnergy();}},
+				{iconCls: 'icon-add', text:'添加', handler:function(){addEnergy();}},
+				{iconCls: 'icon-reload', text:'刷新', handler:function(){window.location.reload();}},
+				{iconCls: 'icon-excel', text:'导出 ', handler:function(){searchEnergy();}}
 			],
 			url: 'getEnergyById.do?userId='+userId,
 			pagination: true,
 			rownumbers: true,
 			pageNumber: 1,
-			pageSize: 10,
+			pageSize: 5,
 			pageList: [1, 2, 5, 10],
 			striped: true,
 			checkOnSelect: true,
@@ -62,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var energyDate = [];
 		var energyData = [];
 		$.post('getEnergyById.do', {'userId': userId}, function(data){
-			$.each(data, function(index, val){
+			$.each(data.all, function(index, val){
 				energyDate.push(val.date);
 				energyData.push(val.energy*1);	/* 将字符串转化为数字  */
 			});
@@ -101,16 +106,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	/* 点击添加按钮  */
-	function openWindow(){
-		$("#win").window({
-			title: '添加能量数据',
-			height: 400,
-			width: 800,
-			content: "<iframe height='100%' width='100%' src='jsp/addEnergy.jsp' ></iframe>"
-		});
+	function addEnergy(){
+		options = {
+				title: '添加能量数据',
+				height: 400,
+				width: 800,
+				content: "<iframe height='100%' width='100%' src='jsp/addEnergy.jsp' ></iframe>"
+		};
+		openWindow(options);
 	}
+	
 	/* 点击删除按钮 */
-	function remove() {
+	function removeEnergy() {
 		var selection = $("#tb-energy").datagrid('getSelected');
 		if(selection == null) {
 			$.messager.alert('提示信息', '请勾选删除项', 'info', function(){return;});
@@ -137,6 +144,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	/* 点击编辑按钮 */
 	function editEnergy() {
 		var selection = $("#tb-energy").datagrid('getSelected');
+		if(selection == null) {
+			$.messager.alert('提示信息', '请选择修改项', 'warning');
+			return;
+		}
+		var userId = "${sessionScope.userId}";
+		var date = selection.date;
+		var energy = selection.energy;
+		var options = {
+				title: '修改能量',
+				content: "<iframe height='100%' width='100%' src='jsp/editEnergy.jsp?date="+
+						date+"&energy="+energy+"'></iframe>"
+				
+		};
+		openWindow(options);
+	}
+	
+	/* 点击查询按钮 */
+	function searchEnergy() {
+		$("#tb-energy").datagrid('load', {});
+	}
+	
+	/* 打开弹窗 */
+	function openWindow(options) {
+		$("#win").window({
+			title: options.title,
+			height: options.height ? options.height : 400,
+			width: options.width ? options.width : 800,
+			content: options.content
+		});
 	}
 	
 </script>

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
 import cug.dao.EnergyDao;
-import net.sf.json.JSONArray;
 
 /**
  * Servlet implementation class GetEnergyByIdServlet
@@ -35,12 +35,28 @@ public class GetEnergyByIdServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/json;charset=utf-8");
 		String userId = request.getParameter("userId");
+		String pageStr = request.getParameter("page");
+		String rowsStr = request.getParameter("rows");
+		if(pageStr == null || pageStr.equals("")) {
+			pageStr = "1";
+			rowsStr = "5";
+		}
+		int page = Integer.parseInt(pageStr);
+		int rows = Integer.parseInt(rowsStr);
+		int start = (page-1)*rows;
+		
 		EnergyDao energyDao = new EnergyDao();
-		Object[] obj = {userId};
-		List<Map<String,String>> list = energyDao.getEnergyById(obj);
-		JSONArray jsonArray = JSONArray.fromObject(list);
+		Object[] obj = {userId, start, rows};
+		Object[] obj1 = {userId};
+		List<Map<String,String>> list = energyDao.getEnergyByPage(obj);
+		List<Map<String,String>> list1 = energyDao.getEnergyById(obj1);
+		int total = list1.size();
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("rows", list);
+		jsonObj.put("total", total);
+		jsonObj.put("all", list1);
 		PrintWriter out = response.getWriter();
-		out.println(jsonArray);
+		out.println(jsonObj);
 		out.flush();
 		out.close();
 	}
