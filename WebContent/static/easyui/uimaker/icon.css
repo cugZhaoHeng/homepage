@@ -125,9 +125,15 @@
 .icon-list {
 	background: url("icons/list.png") no-repeat center center
 }
+
 .icon-excel {
 	background: url("icons/excel.png") no-repeat center center
 }
+
 .icon-word {
 	background: url("icons/word.png") no-repeat center center
+}
+
+.icon-download {
+	background: url("icons/download.png") no-repeat center center
 }

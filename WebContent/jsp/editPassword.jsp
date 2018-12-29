@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<table class="kv-table">
 		<tr>
 			<td class="kv-label">原密码：</td>
-			<td class="kv-content"><input type="text" class="kv-text" id="prePassword" style="width: 50%; height: 100%;"/></td>
+			<td class="kv-content"><input type="password" class="easyui-validatebox kv-text" id="prePassword" style="width: 50%; height: 100%;"/></td>
 		</tr>
 		<tr>
 			<td class="kv-label">设置密码：</td>
@@ -54,27 +54,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	/* 点击确认按钮 */
 	function save() {
-		var prePwd = $("#prePassword").val();
-		/* 先验证原密码是否正确 */
-		$.post('validatePassword.do', {'userId':userId, 'prePassword': prePwd}, function(data){
-			if(data.success) {
-				/* 将数据发送到后台 */
-				$.post(
-						'editPassword.do', 
-						{'userId': userId, 'prePassword': $("#prePassword").val(), 'setPassword': $("#setPassword").val()}, 
-						function(data){
-							if(data.success) {
-								$.messager.alert('提示信息', data.msg, 'info', function(){parent.location.href="login.jsp";});
-							} else {
-								$.messager.alert("提示信息", data.msg, 'info');
-							}
-						}, 
-						'json'
-				);
-			} else {
-				$.messager.alert('提示信息', '原密码输入错误', 'info', function(){});
-			}
-		}, 'json');
+		if(validateBlank()) {
+			var prePwd = $("#prePassword").val();
+			/* 先验证原密码是否正确 */
+			$.post('validatePassword.do', {'userId':userId, 'prePassword': prePwd}, function(data){
+				if(data.success) {
+					/* 将数据发送到后台 */
+					$.post(
+							'editPassword.do', 
+							{'userId': userId, 'prePassword': $("#prePassword").val(), 'setPassword': $("#setPassword").val()}, 
+							function(data){
+								if(data.success) {
+									$.messager.alert('提示信息', data.msg, 'info', function(){parent.location.href="login.jsp";});
+								} else {
+									$.messager.alert("提示信息", data.msg, 'info');
+								}
+							}, 
+							'json'
+					);
+				} else {
+					$.messager.alert('提示信息', '原密码输入错误', 'info', function(){});
+				}
+			}, 'json');
+		} else {
+			return false;
+		}
+	}
+	
+	/* 验证是否有未输入项 */
+	function validateBlank() {
+		if($("#prePassword").val() == "" || $("#prePassword").val() == null) {
+			$.messager.alert('提示信息', '请输入原密码', 'info');
+			return false;
+		}
+		if($("#setPassword").val() == "" || $("#setPassword").val() == null) {
+			$.messager.alert('提示信息', '请输入预设密码', 'info');
+			return false;
+		}
+		if($("#checkPassword").val() == "" || $("#checkPassword").val() == null) {
+			$.messager.alert('提示信息', '请输入确认密码', 'info');
+			return false;
+		}
+		return true;
 	}
 	
 	/* 点击重置按钮 */

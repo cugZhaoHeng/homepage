@@ -12,13 +12,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <base href="<%=basePath%>">
 <%@include file="../script.html"%>
 <link href="static/css/edit.css" rel="stylesheet">
-<title>Insert title here</title>
+<title>查看个人信息</title>
 </head>
 <body>
 <div class="container" align="center">
 	<table class="kv-table">
 		<tr>
-			<td class="kv-label">用户名</td>
+			<td class="kv-label">用户名：</td>
 			<td class="kv-content" id="userName">${sessionScope.userName }</td>
 		</tr>
 		<tr>
@@ -31,8 +31,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</tr>
 	</table>
 	<div class="btn-selection">
-		<a href="" class="easyui-linkbutton edit-btn" data-options="selected:true">修改</a>
-		<a href="" class="easyui-linkbutton exit-btn" data-options="selected:true">关闭</a>
+		<a href="jsp/editUser.jsp" class="easyui-linkbutton edit-btn" data-options="selected:true">修改</a>
+		<a href="javascript:exit()" class="easyui-linkbutton exit-btn" data-options="selected:true">关闭</a>
 	</div>
 </div>
 </body>
@@ -47,8 +47,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$("#birthday").text(val.birthday);
 					$("#tel").text(val.tel);
 				}
-			})
-		}, "json")
-	})
+			});
+		}, "json");
+	});
+	function editUser() {
+		
+	}
+	function exit() {
+		window.parent.close();
+	}
 </script>
 </html>

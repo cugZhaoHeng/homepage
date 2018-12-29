@@ -53,7 +53,7 @@
 				var sheet0 = wb.Sheets[wb.SheetNames[0]];//sheet0代表excel表格中的第一页
 				// 将WorkSheet的内容提取出来，利用下面的接口，转化成了JSON数组
 				jsonArr = XLSX.utils.sheet_to_json(sheet0);
-			}
+			};
 			reader.readAsBinaryString(f);
 			return jsonArr;
 		}

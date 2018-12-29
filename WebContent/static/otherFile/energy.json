@@ -1,0 +1,6 @@
+{
+	"total":2,
+	"rows":[
+		{"productid":"1","date":"2018-12-29","energy":"43256"},
+		{"productid":"2","date":"2018-12-30","energy":"54343"}
+]}

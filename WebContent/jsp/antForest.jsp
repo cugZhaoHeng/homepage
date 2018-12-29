@@ -20,19 +20,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<table id="tb-energy"></table>
 	<div id="chart" style="width: 500px; height: 400px;"></div>
 	<div id="win"></div>
+	<!-- <div id="toolBar">
+		<a href="javascript:editEnergy()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a>
+		<a href="javascript:removeEnergy" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
+		<a href="javascript:addEnergy" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+		<a href="javascript:window.location.reload()" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true">刷新</a>
+		<a href="javascript:exportEnergy()" class="easyui-linkbutton" data-options="iconCls:'icon-excel',plain:true">导出</a>
+		
+		<button id="cc">click</button>
+	</div> -->
 </div>
 </body>
 <script type="text/javascript">
 	/* 定义全局变量 */
 	var allEnergy;
+	var jsonArr;
 	$(document).ready(function(){
 		var userId = "${sessionScope.userId }";
 		tableEnergy(userId);
 		loadEnergy(userId);
-		var pager = $("#tb-energy").datagrid('getPager');
-		pager.pagination({
-			
-		});
+		
 	});
 	
 	/* 显示蚂蚁森林能量表格  */
@@ -43,8 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				{iconCls: 'icon-remove', text: '删除', handler: function(){removeEnergy();}},
 				{iconCls: 'icon-add', text:'添加', handler:function(){addEnergy();}},
 				{iconCls: 'icon-reload', text:'刷新', handler:function(){window.location.reload();}},
-				{iconCls: 'icon-excel', text:'导出 ', handler:function(){exportEnergy();}}
-			],
+				{iconCls: 'icon-excel', text:'导出 ', handler:function(){exportEnergy();}},
+				{iconCls: 'icon-word', text:'导入 ', handler:function(){importEnergy();}}
+			] ,
 			url: 'getEnergyById.do?userId='+userId,
 			pagination: true,
 			rownumbers: true,
@@ -61,12 +69,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					{field: 'energy', title: '能量', width: 200, align: 'center'}
 				]
 			],
+			onLoadSuccess: function(data) {
+				$(this).datagrid("fillRows");
+			}
 		});
 	}
 	
 	/* 加载蚂蚁森林能量曲线图  */
 	function loadEnergy(userId) {
-		$.ajaxSetup({async : false});	/* 防止Ajax异步提交，这里需要等待数据先获取到   */
+		/* 防止Ajax异步提交，这里需要等待数据先获取到   */
+		$.ajaxSetup({async : false});
 		var energyDate = [];
 		var energyData = [];
 		$.post('getEnergyById.do', {'userId': userId}, function(data){
@@ -152,7 +164,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.messager.alert('提示信息', '请选择修改项', 'warning');
 			return;
 		}
-		var userId = "${sessionScope.userId}";
 		var date = selection.date;
 		var energy = selection.energy;
 		var options = {
@@ -172,8 +183,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	/* 点击导出按钮 */
 	function exportEnergy() {
 		var fileName = "蚂蚁森林";
-		
 		exportData(fileName, allEnergy);
+	}
+	
+	/* 点击导入按钮 */
+	function importEnergy() {
+		var options = {
+				title:'导入Excel数据', 
+				content:"<iframe height='100%' width='100%' src='jsp/importEnergy.jsp'></iframe>"
+		};
+		openWindow(options);
 	}
 	
 	/* 打开弹窗 */
@@ -185,6 +204,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			content: options.content
 		});
 	}
+	
 	
 	/* 将JSONArray导出为Excel */
 	function exportData(fileName, jsonArr) {
@@ -225,6 +245,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			URL.revokeObjectURL(obj);
 		}, 100);
 	}
-	
 </script>
 </html>

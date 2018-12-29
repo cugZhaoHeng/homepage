@@ -35,7 +35,7 @@
 		<div data-options="region:'south',split:true" style="height: 50px;"></div>
 		<div data-options="region:'east',split:true" title="East"
 			style="width: 100px;"></div>
-		<div data-options="region:'west',split:true" id="west" title="小功能" style="width: 150px;">
+		<div data-options="region:'west',split:true, collapsible:false" id="west" title="小功能" style="width: 100px;">
 			<div class="selecion-btn">
 				<a href="javascript:addTab('蚂蚁森林', 'jsp/antForest.jsp')" class="easyui-linkbutton" data-options="text:'蚂蚁森林', selected:true"></a>
 				
@@ -46,7 +46,7 @@
 			<!-- 中间的面板显示标签页，默认为首页home.jsp -->
 			<div class="easyui-tabs" id="tabs" style="width:100%; height:100%;">
 				<div title="首页" style="padding:10px 5px 5px 10px;">
-                    <iframe src="jsp/editPassword.jsp" frameborder="0" height="100%" width="100%" scrolling="auto"></iframe>
+                    <iframe src="jsp/editUser.jsp" frameborder="0" height="100%" width="100%" scrolling="auto"></iframe>
                 </div>
 			</div>
 		</div>
@@ -63,10 +63,9 @@
 		if($("#tabs").tabs('exists', title)) {
 			return;
 		} else {
-			var content = "<iframe scrolling='auto' frameborder='0' src='"+url+"' style='width:100%; height:100%;'> </iframe>"
-			$("#tabs").tabs('add', {title: title, closable:true, content:content})
+			var content = "<iframe scrolling='auto' frameborder='0' src='"+url+"' style='width:100%; height:100%;'> </iframe>";
+			$("#tabs").tabs('add', {title: title, closable:true, content:content});
 		}
-		
 	}
 	
 	

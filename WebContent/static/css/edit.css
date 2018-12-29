@@ -8,6 +8,8 @@
 	width: 40%;
 	border-collapse: separate;
 	border-spacing: 0 10px;
+	text-align: center;
+	margin-left: 35%;
 }
 
 .container table.kv-table td.kv-label {
