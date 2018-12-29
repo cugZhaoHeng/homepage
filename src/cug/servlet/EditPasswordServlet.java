@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
-import cug.dao.EnergyDao;
+import cug.dao.UserDao;
 
 /**
- * Servlet implementation class EditEnergyServlet
+ * Servlet implementation class EditPasswordServlet
  */
-@WebServlet("/editEnergy.do")
-public class EditEnergyServlet extends HttpServlet {
+@WebServlet("/editPassword.do")
+public class EditPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditEnergyServlet() {
+    public EditPasswordServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,25 +38,20 @@ public class EditEnergyServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 设置返回格式
+		// TODO Auto-generated method stub
 		response.setContentType("text/json;charset=utf-8");
 		JSONObject jsonObj = new JSONObject();
-		
 		String userId = request.getParameter("userId");
-		String energyNum = request.getParameter("energyNum");
-		String date = request.getParameter("date");
-		
-		System.out.println(date+energyNum);
-		
-		EnergyDao energyDao = new EnergyDao();
-		Object[] obj = {energyNum, userId, date};
-		int i = energyDao.editEnergy(obj);
+		String setPassword = request.getParameter("setPassword");
+		UserDao userDao = new UserDao();
+		Object[] obj = {setPassword, userId};
+		int i = userDao.editPassword(obj);
 		if(i>0) {
-			jsonObj.put("msg", "修改成功");
 			jsonObj.put("success", true);
+			jsonObj.put("msg", "修改成功，请返回登录页面重新进入");
 		} else {
-			jsonObj.put("msg", "修改失败");
 			jsonObj.put("success", false);
+			jsonObj.put("msg", "修改失败");
 		}
 		PrintWriter out = response.getWriter();
 		out.println(jsonObj);

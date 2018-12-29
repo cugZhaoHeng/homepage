@@ -12,9 +12,6 @@ import cug.util.DBUtil;
 public class UserDao {
 	/**
 	 * 通过用户名和密码查询用户是否登录成功
-	 * @param userName
-	 * @param obj
-	 * @return
 	 */
 	public UserBean selectUserByUserName(Object[] obj) {
 		String sql = "select * from user_info where username = ? and password=?";
@@ -38,8 +35,6 @@ public class UserDao {
 	
 	/**
 	 * 通过用户ID访问用户详细信息
-	 * @param obj
-	 * @return
 	 */
 	public UserBean selectUserById(Object[] obj) {
 		String sql = "select * from user_info where id = ?";
@@ -63,9 +58,15 @@ public class UserDao {
 	
 	/**
 	 * 获取所有的用户对象
-	 * @return
 	 */
 	public List<Map<String, String>> getAllUser() {
 		return DBUtil.query("select * from user_info");
+	}
+	
+	/**
+	 * 修改用户的密码
+	 */
+	public int editPassword(Object[] obj) {
+		return DBUtil.update("update user_info set password=? where id=?", obj);
 	}
 }

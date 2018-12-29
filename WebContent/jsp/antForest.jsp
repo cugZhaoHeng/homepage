@@ -12,6 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <base href="<%=basePath%>">
 <%@include file="../script.html"%>
 <script type="text/javascript" src="static/highcharts/highcharts.js"></script>
+<script src="static/js/xlsx.full.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -22,6 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 </body>
 <script type="text/javascript">
+	/* 定义全局变量 */
+	var allEnergy;
 	$(document).ready(function(){
 		var userId = "${sessionScope.userId }";
 		tableEnergy(userId);
@@ -40,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				{iconCls: 'icon-remove', text: '删除', handler: function(){removeEnergy();}},
 				{iconCls: 'icon-add', text:'添加', handler:function(){addEnergy();}},
 				{iconCls: 'icon-reload', text:'刷新', handler:function(){window.location.reload();}},
-				{iconCls: 'icon-excel', text:'导出 ', handler:function(){searchEnergy();}}
+				{iconCls: 'icon-excel', text:'导出 ', handler:function(){exportEnergy();}}
 			],
 			url: 'getEnergyById.do?userId='+userId,
 			pagination: true,
@@ -67,6 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var energyDate = [];
 		var energyData = [];
 		$.post('getEnergyById.do', {'userId': userId}, function(data){
+			allEnergy = data.all;
 			$.each(data.all, function(index, val){
 				energyDate.push(val.date);
 				energyData.push(val.energy*1);	/* 将字符串转化为数字  */
@@ -165,6 +169,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#tb-energy").datagrid('load', {});
 	}
 	
+	/* 点击导出按钮 */
+	function exportEnergy() {
+		var fileName = "蚂蚁森林";
+		
+		exportData(fileName, allEnergy);
+	}
+	
 	/* 打开弹窗 */
 	function openWindow(options) {
 		$("#win").window({
@@ -173,6 +184,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			width: options.width ? options.width : 800,
 			content: options.content
 		});
+	}
+	
+	/* 将JSONArray导出为Excel */
+	function exportData(fileName, jsonArr) {
+		var sheet0 = XLSX.utils.json_to_sheet(jsonArr);
+		var wopts = {
+			bookType : 'xlsx',
+			bookSST : false,
+			type : 'binary'
+		};
+		var wb = {
+			SheetNames : [ 'Sheet0' ],
+			Sheets : {},
+			Props : {}
+		};
+		wb.Sheets['Sheet0'] = sheet0;//转化成workbooks形式。
+		var wbout = XLSX.write(wb, wopts);
+		//转换流形式
+		function s2ab(s) {
+			var buf = new ArrayBuffer(s.length);
+			var view = new Uint8Array(buf);
+			for (var i = 0; i != s.length; ++i)
+				view[i] = s.charCodeAt(i) & 0xFF;
+			return buf;
+		}
+		/* the saveAs call downloads a file on the local machine */
+		//自定义保存文件方式,原项目采用的是cordova的文件写入方式，此演示只用模拟浏览器下载的形式
+		saveAs(new Blob([ s2ab(wbout) ], {
+			type : ""
+		}), fileName + ".xlsx");
+
+	}
+	function saveAs(obj, fileName) {
+		var tmpa = document.createElement("a");
+		tmpa.download = fileName || "下载";
+		tmpa.href = URL.createObjectURL(obj);
+		tmpa.click();
+		setTimeout(function() {
+			URL.revokeObjectURL(obj);
+		}, 100);
 	}
 	
 </script>

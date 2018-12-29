@@ -32,11 +32,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</table>
 	<div class="btn-selection">
 		<a href="javascript:save()" class="easyui-linkbutton save-btn" data-options="selected:true">确认</a>
-		<a href="" class="easyui-linkbutton reset-btn" data-options="selected:true">重置</a>
+		<a href="javascript:reset()" class="easyui-linkbutton reset-btn" data-options="selected:true">重置</a>
 	</div>
 </div>
 </body>
 <script type="text/javascript">
+	/* 全局变量 */
+	var userId = "${sessionScope.userId }";
+	
+	
 	$(document).ready(function(){
 		/* 确认密码框离焦事件  */
 		$("#checkPassword").blur(function(){
@@ -45,24 +49,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if(setPassword != checkPassword) {
 				$.messager.alert('提示信息', '两次密码不匹配', 'info');
 			}
-		})
-	})
+		});
+	});
+
+	/* 点击确认按钮 */
 	function save() {
-		validate();
-	}
-	function validate() {
-		var userId = "${sessionScope.userId }";
 		var prePwd = $("#prePassword").val();
-		
+		/* 先验证原密码是否正确 */
 		$.post('validatePassword.do', {'userId':userId, 'prePassword': prePwd}, function(data){
 			if(data.success) {
-				$.messager.alert('提示信息', '修改成功', 'info', function(){})
+				/* 将数据发送到后台 */
+				$.post(
+						'editPassword.do', 
+						{'userId': userId, 'prePassword': $("#prePassword").val(), 'setPassword': $("#setPassword").val()}, 
+						function(data){
+							if(data.success) {
+								$.messager.alert('提示信息', data.msg, 'info', function(){parent.location.href="login.jsp";});
+							} else {
+								$.messager.alert("提示信息", data.msg, 'info');
+							}
+						}, 
+						'json'
+				);
 			} else {
-				$.messager.alert('提示信息', '修改失败', 'info', function(){})
+				$.messager.alert('提示信息', '原密码输入错误', 'info', function(){});
 			}
-		}, 'json')
-		
-		
+		}, 'json');
+	}
+	
+	/* 点击重置按钮 */
+	function reset() {
+		$("#prePassword").val('');
+		$("#setPassword").val('');
+		$("#checkPassword").val('');
 	}
 </script>
 </html>
