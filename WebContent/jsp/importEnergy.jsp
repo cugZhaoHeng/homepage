@@ -29,12 +29,12 @@
 <body>
 	<div class="container">
 		<form id="ff" method="post">
-			<div class="import">
-				<input type="file" id="file0" onchange="importFile(this)" />
+			<div>
+				<input class="easyui-filebox" id="file1" data-options="onChange:function(){getFiles();}" sytle="width:200px" />
 			</div>
 			<div class="center" style="padding-top: 20px;">
 				<table class="easyui-datagrid tb-module" style="text-align:'center';"
-					data-options="url:'static/otherFile/energy.json',method:'get', toolbar:'#toolbar'">
+					data-options="url:'static/json/energy.json',method:'get', toolbar:'#toolbar'">
 					<thead>
 						<tr>
 							<th data-options="field:'date',align:'center'" style="width:50%">date</th>
@@ -58,24 +58,73 @@
 	<script language="JavaScript">
 		/* 全局变量，file为上传的文件，以JSON数组的形式保存Excel文件转化的数据 */
 		var file;
+		var files;
 		var jsonArr;
 		$(document).ready(function() {
+			$("#file1").filebox({
+				buttonText: '选择文件',
+				buttonAlign: 'left',
+				
+			});
+			
 		});
+		
+		/* 读取文件 */
+		function getFiles() {
+			files = $("#file1").filebox('files');
+			// 获取Excel文件对象
+			file = files[0];
+			var fileName = file.name;
+			var fileType = fileName.substring(fileName.length - 4);
+
+			/* 判断是否是excel文件 */
+			if ([ 'xlsx', '.xls' ].indexOf(fileType) > -1) {
+				// 创建FileReader对象
+				var reader = new FileReader();
+				/* 读取文件，以二进制方式 */
+				reader.readAsBinaryString(file);
+				
+				/* onloan的执行时间在很后面，会导致延迟的，所以这个函数必须在上传好文件之后立即触发，而不是等待点击确认再触发*/
+				reader.onload = function(e) {
+					/* 读取文件内容 */
+					var data = e.target.result;
+					// 获取WorkBook对象，以二进制的方式读取
+					var wb = XLSX.read(data, {
+						type : 'binary'
+					});
+					// 获取WorkSheet对象，sheet0代表excel表格中的第一页
+					var sheet0 = wb.Sheets[wb.SheetNames[0]];
+					// 将WorkSheet的内容提取出来，利用下面的接口，转化成了JSON数组
+					jsonArr = XLSX.utils.sheet_to_json(sheet0);
+				};
+			} else {
+				$.messager.alert('提示信息', '请选择Excel文件', 'info', function() {
+					reset();
+					return;
+				});
+
+			}
+		}
 
 		/* 点击确认按钮 */
 		function save() {
 			/* 判断是否有文件上传 */
-			if (file == null) {
-				alert("未选择文件");
+			if (!files) {
+				$.messager.alert('提示信息', '请选择文件', 'warning');
 				return;
 			} else {
-				/* 遍历表头，检查表头中的元素是否与数据表一致 */
-				for ( var key in jsonArr[0]) {
-					if ([ 'date', 'energy' ].indexOf(key) == -1) {
-						$.messager.alert('提示信息', '表头格式未按照要求填写', 'warning');
-						return;
+				if(jsonArr) {
+					/* 遍历表头，检查表头中的元素是否与数据表一致 */
+					for ( var key in jsonArr[0]) {
+						if ([ 'date', 'energy' ].indexOf(key) == -1) {
+							$.messager.alert('提示信息', '表头格式未按照要求填写', 'warning');
+							return;
+						}
 					}
+				} else {
+					alert("没有数据");
 				}
+				
 			}
 			/* 日期格式为mm/dd/yy的正则表达式 */
 			var dateReg1 = /^\d{2}\/\d{2}\/\d{2}/;
@@ -116,42 +165,6 @@
 			window.location.reload();
 		}
 
-		/* 读取文件的方法 */
-		function importFile(obj) {
-			if (!obj.files) {
-				return;
-			}
-			// 获取Excel文件对象
-			file = obj.files[0];
-			var fileName = file.name;
-			var fileType = fileName.substring(fileName.length - 4);
-
-			if ([ 'xlsx', '.xls' ].indexOf(fileType) > -1) {
-				// 创建FileReader对象
-				var reader = new FileReader();
-				/* 读取文件，以二进制方式 */
-				reader.readAsBinaryString(file);
-				reader.onload = function(e) {
-					/* 读取文件内容 */
-					var data = e.target.result;
-					// 获取WorkBook对象，以二进制的方式读取
-					var wb = XLSX.read(data, {
-						type : 'binary'
-					});
-					// 获取WorkSheet对象，sheet0代表excel表格中的第一页
-					var sheet0 = wb.Sheets[wb.SheetNames[0]];
-					// 将WorkSheet的内容提取出来，利用下面的接口，转化成了JSON数组
-					jsonArr = XLSX.utils.sheet_to_json(sheet0);
-				};
-			} else {
-				$.messager.alert('提示信息', '请选择Excel文件', 'info', function() {
-					reset();
-					return;
-				});
-
-			}
-			return jsonArr;
-		}
 	</script>
 </body>
 </html>

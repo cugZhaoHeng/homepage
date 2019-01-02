@@ -11,8 +11,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <base href="<%=basePath%>">
 <%@include file="../script.html"%>
-<script type="text/javascript" src="static/highcharts/highcharts.js"></script>
-<script src="static/js/xlsx.full.min.js"></script>
+<script type="text/javascript" src="static/plugin/highcharts/highcharts.js"></script>
+<script src="static/plugin/js-xlsx/xlsx.full.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -69,9 +69,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					{field: 'energy', title: '能量', width: 200, align: 'center'}
 				]
 			],
-			onLoadSuccess: function(data) {
-				$(this).datagrid("fillRows");
-			}
 		});
 	}
 	

@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Cache Editor for DataGrid - jQuery EasyUI Demo</title>
-	<link rel="stylesheet" type="text/css" href="../../uimaker/easyui.css">
-	<link rel="stylesheet" type="text/css" href="../../uimaker/icon.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../demo.css">
-	<script type="text/javascript" src="../../../jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../jquery.min.js"></script>
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 </head>
 <body>
@@ -40,8 +40,8 @@
 								required:true
 							}
 						}">Product</th>
-				<th data-options="field:'listprice',width:80,align:'right',editor:{type:'numberbox',options:{precision:1}}">List Price</th>
-				<th data-options="field:'unitcost',width:80,align:'right',editor:'numberbox'">Unit Cost</th>
+				<th data-options="field:'listprice',width:80,align:'right',editor:{type:'numberbox',options:{precision:2}}">List Price</th>
+				<th data-options="field:'unitcost',width:80,align:'right',editor:{type:'numberbox',options:{precision:2}}">Unit Cost</th>
 				<th data-options="field:'attr1',width:250,editor:'text'">Attribute</th>
 				<th data-options="field:'status',width:60,align:'center',editor:{type:'checkbox',options:{on:'P',off:''}}">Status</th>
 			</tr>

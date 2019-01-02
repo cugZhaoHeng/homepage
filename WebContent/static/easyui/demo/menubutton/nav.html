@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Keyboard Navigation in MenuButton - jQuery EasyUI Demo</title>
-	<link rel="stylesheet" type="text/css" href="../../uimaker/easyui.css">
-	<link rel="stylesheet" type="text/css" href="../../uimaker/icon.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../demo.css">
-	<script type="text/javascript" src="../../../jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../jquery.min.js"></script>
 	<script type="text/javascript" src="../../jquery.easyui.min.js"></script>
 </head>
 <body>
@@ -70,6 +70,16 @@
 					return p;
 				}
 			}
+			function getParentItem(pmenu, menu){
+				var item = undefined;
+				$(pmenu).find('.menu-item').each(function(){
+					if ($(this.submenu)[0] == $(menu)[0]){
+						item = $(this);
+						return false;
+					}
+				});
+				return item;
+			}
 
 			$.extend($.fn.menubutton.methods, {
 				enableNav: function(enabled){
@@ -109,8 +119,12 @@
 								case 37:  // left
 									var pmenu = getParentMenu(currButton.data('menubutton') ? $(currButton.menubutton('options').menu) : $(), curr.menu);
 									if (pmenu){
+										item.trigger('mouseleave');
+										var pitem = getParentItem(pmenu, curr.menu);
+										if (pitem){
+											pitem.trigger('mouseenter');
+										}
 										curr.menu = pmenu;
-										item.triggerHandler('mouseleave');
 									} else {
 										var prev = currButton.prevAll('.l-btn:first');
 										if (prev.length){

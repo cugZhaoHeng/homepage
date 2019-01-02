@@ -6,10 +6,6 @@ html, body {
 	position: relative;
 	z-index: 2;
 	background-color: #1da02b;
-	background: url('../images/main/xg_left.png?1464005190') left center
-		no-repeat, url('../images/main/xg_right.png?1464005212') right center
-		no-repeat, url('../images/main/top_bottombg.png?1464006836') left
-		bottom repeat-x
 }
 
 #north .north-user {
