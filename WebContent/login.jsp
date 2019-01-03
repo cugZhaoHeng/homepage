@@ -13,8 +13,10 @@
 
 <!-- login.css包含了登录页面的大部分样式设置 -->
 <link href="static/css/login.css" rel="stylesheet">
+<link href="static/css/drag.css" rel="stylesheet">
 <%@include file="script.html"%>
-<title>Insert title here</title>  
+<script src="static/js/drag.js" type="text/javascript"></script>
+<title>I登录页面</title>  
 </head>
 
 <body>
@@ -44,14 +46,8 @@
 								<i class="iconfont">&#xe908;</i> <input type="password"
 									name="password" id="password" placeholder="密码" />
 							</div>
-							<!-- 验证码，包含输入部分和显示部分 -->
-							<div class="lg-check clearfix">
-								<div class="input-item">
-									<i class="iconfont">&#xe8dc;</i> <input type="text"
-										name="captcha" id="captcha" placeholder="验证码" />
-								</div>
-								<span class="check-code"> </span>
-							</div>
+							<!-- 验证码 -->
+							<div id="drag" class="input-item clearfix"></div>	
 							<div class="enter">
 								<a class="supplier">登录</a> <a class="purchaser">注册</a>
 							</div>
@@ -71,11 +67,13 @@
 		$("#error").hide();
 		$(".supplier").on('click', function() {
 			login();
-		})
+		});
+		$('#drag').drag();
 	})
 
 	/* 点击登录按钮触发事件  */
 	function login() {
+		var dragtext = $('.drag_text').text();
 		var username = $("#username").val();
 		var password = $("#password").val();
 		if (username == "" || username == null) {
@@ -83,8 +81,10 @@
 			$("#error").show();
 		} else if (password == "" || password == null) {
 			$("#info").text("请输入密码");
-
-		} else {
+		} else if(dragtext == "拖动滑块验证") {
+			$("#info").text("请手动验证");
+		}
+		else {
 			// 处理用户登录
 			$.ajax({
 				url: "login.do",

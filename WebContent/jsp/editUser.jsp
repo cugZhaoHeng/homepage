@@ -10,7 +10,6 @@
 %>
 <base href="<%=basePath%>">
 <%@include file="../script.html"%>
-<link href="static/css/edit.css" rel="stylesheet">
 <title>修改个人信息</title>
 </head>
 <body>
@@ -41,8 +40,8 @@
 	</table>
 	
 	<div class="btn-selection">
-		<a href="javascript:submit()" class="easyui-linkbutton edit-btn" data-options="selected:true">提交</a>
-		<a href="javascript:reset()" class="easyui-linkbutton exit-btn" data-options="selected:true">重置</a>
+		<a href="javascript:submit()" class="easyui-linkbutton save-btn" data-options="selected:true, iconCls:'icon-add'" style="width:70px;height:35px;">提交</a>
+		<a href="javascript:reset()" class="easyui-linkbutton reset-btn" data-options="selected:true, iconCls:'icon-reload'" style="width:70px;height:35px;">重置</a>
 	</div>
 </div>
 </body>

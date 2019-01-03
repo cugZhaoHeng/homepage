@@ -13,7 +13,6 @@
 %>
 <base href="<%=basePath%>">
 <%@include file="../script.html"%>
-<script src="static/js/xlsx.full.min.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
 	.container .import {
@@ -30,7 +29,7 @@
 	<div class="container">
 		<form id="ff" method="post">
 			<div>
-				<input class="easyui-filebox" id="file1" data-options="onChange:function(){getFiles();}" sytle="width:200px" />
+				<input class="easyui-filebox" id="file1" data-options="onChange:function(){getFiles();}" style="width:50%" />
 			</div>
 			<div class="center" style="padding-top: 20px;">
 				<table class="easyui-datagrid tb-module" style="text-align:'center';"

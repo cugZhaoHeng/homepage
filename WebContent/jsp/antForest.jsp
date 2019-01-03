@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <base href="<%=basePath%>">
 <%@include file="../script.html"%>
 <script type="text/javascript" src="static/plugin/highcharts/highcharts.js"></script>
-<script src="static/plugin/js-xlsx/xlsx.full.min.js"></script>
+<script type="text/javascript" src="static/plugin/js-xlsx/xlsx.full.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -20,15 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<table id="tb-energy"></table>
 	<div id="chart" style="width: 500px; height: 400px;"></div>
 	<div id="win"></div>
-	<!-- <div id="toolBar">
-		<a href="javascript:editEnergy()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a>
-		<a href="javascript:removeEnergy" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
-		<a href="javascript:addEnergy" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
-		<a href="javascript:window.location.reload()" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true">刷新</a>
-		<a href="javascript:exportEnergy()" class="easyui-linkbutton" data-options="iconCls:'icon-excel',plain:true">导出</a>
-		
-		<button id="cc">click</button>
-	</div> -->
 </div>
 </body>
 <script type="text/javascript">
